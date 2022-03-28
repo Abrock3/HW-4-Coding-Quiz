@@ -1,2 +1,122 @@
 :root {
 }
+body {
+  background-color: #b2d6ee;
+}
+
+header button,
+header span {
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  margin: 20px;
+  background-color: #ffffff;
+  background-color: #85ffbd;
+  background-image: linear-gradient(45deg, #85ffbd 0%, #fffb7d 100%);
+  border-radius: 10px;
+}
+
+button:hover {
+  -webkit-filter: brightness(50%);
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
+header span {
+  float: right;
+  border: solid black 1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+header {
+  height: 80px;
+  border-bottom: solid black 1px;
+  background-color: #8ec5fc;
+  background-image: linear-gradient(225deg, #8ec5fc 0%, #e0c3fc 100%);
+}
+.questionElements,
+.informResult,
+.introPage,
+.finishPage,
+.highScorePage {
+  display: none;
+}
+.wrapper {
+  width: 600px;
+  margin: auto;
+  margin-top: 100px;
+}
+
+.displayed {
+  display: block;
+}
+.introPage.displayed {
+  text-align: center;
+}
+h1.displayed {
+  font-size: 150%;
+}
+
+p.introPage.displayed {
+  margin: 15px 0;
+}
+button.introPage.displayed {
+  --width: 200px;
+  width: var(--width);
+  width: 200px;
+  height: 50px;
+  position: relative;
+
+  left: calc(50% - var(--width) / 2);
+}
+.questionHeading.displayed {
+  display: block;
+  font-size: 150%;
+}
+.answers.displayed {
+  display: block;
+  margin: 8px;
+  margin-left: 0px;
+  background-color: #ff6b6b;
+  padding: 5px;
+  border-radius: 5px;
+}
+.informResult.displayed {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: solid black 3px;
+  opacity: 50%;
+}
+
+p.finishPage.displayed {
+  margin-top: 15px;
+}
+label.finishPage.displayed {
+  display: inline;
+}
+input.finishPage.displayed {
+  margin-top: 15px;
+  display: inline;
+  width: 50px;
+}
+button.finishPage.displayed {
+  margin-top: 15px;
+  width: 200px;
+  height: 40px;
+}
+@media screen and (max-width: 520px) {
+  header button,
+  header span {
+    width: 110px;
+  }
+  .wrapper {
+    width: 300px;
+  }
+}

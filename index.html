@@ -3,14 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>XXXXXXXXXXXXXXXXXX</title>
+    <title>Coding Quiz</title>
     <link rel="stylesheet" href="./assets/css/reset.css" />
     <link rel="stylesheet" href="./assets/css/style.css" />
   </head>
   <body>
-    <header></header>
-
-    <footer></footer>
+    <header>
+      <button id="highScoreButton">View High Scores</button>
+      <span id="countdown">Time: 0</span>
+    </header>
+    <div class="wrapper">
+      <h1 class="introPage displayed">Coding Quiz Challenge</h1>
+      <p class="introPage displayed">
+        Try to answer the following coding-related questions within the time
+        limit! Keep in mind that incorrect answers will reduce your time limit
+        by 10 seconds!
+      </p>
+      <button id="startButton" class="introPage displayed">Start Quiz</button>
+      <h1 class="questionElements questionHeading">
+        Sample questions are often _______ characters long. Feel free to search
+        the web!
+      </h1>
+      <ul class="questionElements answersList"></ul>
+      <span class="informResult">WRONG!</span>
+      <h1 class="finishPage">All done!</h1>
+      <p class="finishPage" id="displayScore">Your final score is ____.</p>
+      <label class="finishPage">Enter your initials:</label>
+      <input class="finishPage" id="initialsInput" maxlength="3" />
+      <button class="finishPage" id="submitScore">Submit Score</button>
+      <h1 class="highScorePage">High Score List</h1>
+      <ol class="highScorePage" id="highScoreList"></ol>
+    </div>
     <script src="./assets/javascript/script.js"></script>
   </body>
 </html>
