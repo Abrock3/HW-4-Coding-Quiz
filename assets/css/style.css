@@ -81,7 +81,7 @@ button.introPage.displayed {
 
 .questionHeading.displayed {
   font-size: 150%;
-height: 48px;
+min-height: 48px;
 }
 
 .answersList li {
@@ -133,6 +133,7 @@ button.finishPage.displayed {
   margin-top: 15px;
   width: 200px;
   height: 40px;
+    margin: 15px auto 0 auto;
 }
 
 #highScoreList li {
@@ -157,7 +158,7 @@ h1.highScorePage.displayed {
   width: 200px;
   height: 50px;
   margin: 0 auto;
-  border-radius: 8px;;
+  border-radius: 8px;
 }
 
 @media screen and (max-width: 520px) {
@@ -165,8 +166,11 @@ h1.highScorePage.displayed {
   header span {
     width: 110px;
   }
-
+.answersList li, #highScoreList li {
+  width: 255px;
+}
   .wrapper {
+    margin-top: 10px;
     width: 300px;
   }
 }
