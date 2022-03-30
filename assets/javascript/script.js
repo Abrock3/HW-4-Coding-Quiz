@@ -11,10 +11,11 @@ const initialsInputEl = document.querySelector("#initialsInput");
 const submitButtonEl = document.querySelector("#submitScore");
 const highScorePageEls = document.querySelectorAll(".highScorePage");
 const highScoreListEl = document.querySelector("#highScoreList");
+const clearHighScoresEl = document.querySelector("#clearHighScoresBtn");
 
 const questionLibrary = [
   {
-    question: "What's the name of the biome Ryley spawns in?",
+    question: "What's the name of the biome the main character spawns in?",
     answers: ["Floating Island", "Safe Shallows", "Dunes", "Crash Zone"],
     answer: 1,
   },
@@ -52,8 +53,13 @@ const questionLibrary = [
     answer: 3,
   },
   {
-    question: "What's the longest living animal in the game?",
-    answers: ["Reefback", "Sea Dragon", "Sea Emperor", "Reaper"],
+    question: "What's the lengthiest extant animal in the game?",
+    answers: [
+      "Reefback Leviathan",
+      "Sea Dragon Leviathan",
+      "Sea Emperor Leviathan",
+      "Reaper Leviathan",
+    ],
     answer: 2,
   },
   {
@@ -80,19 +86,21 @@ const questionLibrary = [
     answer: 1,
   },
 ];
+let debugMode = false;
 let timeout;
 let questionNumber = 0;
 let score = 0;
 let interval;
 let timeLeft = 75;
-const highScoreString = localStorage.getItem(10);
-const highScores = JSON.parse(highScoreString) ?? [];
+let highScores = JSON.parse(localStorage.getItem(10)) ?? [];
 
 function quiz() {
   score = 0;
   questionNumber = 0;
+  debugMode = window.confirm(
+    "Would you like to turn on debug mode for this run? The correct answers will be highlighted."
+  );
   timeLeft = 75;
-
   countdownEl.innerHTML = "Time: " + timeLeft;
   introPageEls.forEach((element) => {
     element.classList.remove("displayed");
@@ -104,8 +112,7 @@ function quiz() {
   interval = setInterval(function () {
     timeLeft--;
     countdownEl.textContent = "Time: " + timeLeft;
-    if (timeLeft <= 0) {
-      countdownEl.textContent = "Time: " + timeLeft;
+    if (timeLeft < 0) {
       clearInterval(interval);
       checkHighScore(score);
     }
@@ -114,16 +121,27 @@ function quiz() {
 
 function displayQuestion() {
   answersEl.innerHTML = "";
-  const tempQuestion = questionLibrary[questionNumber];
-  questionHeadingEl.textContent = tempQuestion.question;
-  tempQuestion.answers.forEach(function (answer) {
+  questionHeadingEl.textContent = questionLibrary[questionNumber].question;
+  questionLibrary[questionNumber].answers.forEach(function (answer) {
     let tempLi = document.createElement("li");
     tempLi.textContent = answer;
-    answersEl.appendChild(tempLi);
+    tempLi.className = "liButtons";
+       tempLi.setAttribute("data-answer", answer);
+    if (
+      answer ===
+        questionLibrary[questionNumber].answers[
+          questionLibrary[questionNumber].answer
+        ] &&
+      debugMode === true
+    ){
+      tempLi.append("<--")
+    }
+      answersEl.appendChild(tempLi);
   });
 }
 
 function checkHighScore(score) {
+  countdownEl.textContent = "Time: " + timeLeft;
   const currentHighScores = JSON.parse(localStorage.getItem(10)) ?? [];
   const lowestScore = currentHighScores[9]?.score ?? 0;
   questionEls.forEach((element) => element.classList.remove("displayed"));
@@ -171,53 +189,58 @@ function showHighScores() {
     tempLi.innerHTML = score.name + ": " + score.score;
     highScoreListEl.appendChild(tempLi);
   });
+  if (highScores.length === 0) {
+    highScoreListEl.innerHTML = "<li>There are no high scores yet!</li>";
+  }
 }
 
 startButtonEl.addEventListener("click", quiz);
 
 answersEl.addEventListener("click", function (event) {
   const target = event.target;
-  clearTimeout(timeout);
-  if (
-    target.innerHTML ===
-    questionLibrary[questionNumber].answers[
-      questionLibrary[questionNumber].answer
-    ]
-  ) {
-    score++;
-    informResultEl.innerHTML =
-      "Nice job! Score +1! <br>  Total score: " + score;
-    informResultEl.classList.add("displayed");
-    timeout = setTimeout(function () {
-      informResultEl.classList.remove("displayed");
-    }, 3000);
-  } else {
-    score--;
-    informResultEl.innerHTML =
-      "Oof. The answer was " +
+  if (target.className === "liButtons") {
+    clearTimeout(timeout);
+    if (
+      target.getAttribute("data-answer") ===
       questionLibrary[questionNumber].answers[
         questionLibrary[questionNumber].answer
-      ] +
-      ".<br> Total score: " +
-      score;
-    informResultEl.classList.add("displayed");
-    timeout = setTimeout(function () {
-      informResultEl.classList.remove("displayed");
-    }, 3000);
-    if (timeLeft > 9) {
-      timeLeft = timeLeft - 10;
+      ]
+    ) {
+      score++;
+      informResultEl.innerHTML =
+        "Nice job! Score +1! <br>  Total score: " + score;
+      informResultEl.classList.add("displayed");
+      timeout = setTimeout(function () {
+        informResultEl.classList.remove("displayed");
+      }, 3000);
     } else {
-      timeLeft = 0;
+      score--;
+      informResultEl.innerHTML =
+        "Oof. The answer was " +
+        questionLibrary[questionNumber].answers[
+          questionLibrary[questionNumber].answer
+        ] +
+        ".<br> Total score: " +
+        score;
+      informResultEl.classList.add("displayed");
+      timeout = setTimeout(function () {
+        informResultEl.classList.remove("displayed");
+      }, 3000);
+      if (timeLeft > 9) {
+        timeLeft = timeLeft - 10;
+      } else {
+        timeLeft = 0;
+      }
+      countdownEl.textContent = "Time: " + timeLeft;
     }
-    countdownEl.textContent = "Time: " + timeLeft;
+    questionNumber++;
+    if (questionLibrary.length === questionNumber) {
+      clearInterval(interval);
+      checkHighScore(score);
+      return;
+    }
+    displayQuestion();
   }
-  questionNumber++;
-  if (questionLibrary.length === questionNumber) {
-    clearInterval(interval);
-    checkHighScore(score);
-    return;
-  }
-  displayQuestion();
 });
 
 submitButtonEl.addEventListener("click", function () {
@@ -233,7 +256,12 @@ submitButtonEl.addEventListener("click", function () {
     window.alert("You must type at least two characters in your initials.");
   }
 });
-
+initialsInputEl.addEventListener("keyup", function (event) {
+  event.preventDefault();
+  if (event.keyCode === 13) {
+    submitButtonEl.click();
+  }
+});
 highScoreButtonEl.addEventListener("click", function () {
   if (highScoreButtonEl.textContent === "View High Scores") {
     showHighScores();
@@ -246,6 +274,11 @@ highScoreButtonEl.addEventListener("click", function () {
       element.classList.add("displayed");
     });
   }
+});
+clearHighScoresEl.addEventListener("click", function () {
+  highScores = [];
+  localStorage.clear();
+  highScoreListEl.innerHTML = "<li>There are no high scores yet!</li>";
 });
 function randomWallpaper() {
   const backgroundArray = [

@@ -14,26 +14,28 @@
     </header>
     <main>
       <div class="wrapper">
-        <h1 class="introPage displayed">Subnautica Trivia Challenge (Spoilers Ahead!)</h1>
+        <h1 class="introPage displayed">
+          Subnautica Trivia Challenge (Spoilers Ahead!)
+        </h1>
         <p class="introPage displayed">
-          Try to answer the following trivia questions within the time
-          limit! Keep in mind that incorrect answers will reduce your remaining time
-          by 10 seconds!
+          Try to answer the following trivia questions within the time limit!
+          Keep in mind that incorrect answers will reduce your remaining time by
+          10 seconds!
         </p>
         <button id="startButton" class="introPage displayed">Start Quiz</button>
-        <h1 class="questionElements questionHeading">
-          Sample questions are often _______ characters long. Feel free to
-          search the web!
-        </h1>
+        <h1 class="questionElements questionHeading"></h1>
         <ul class="questionElements answersList"></ul>
-        <span class="informResult">WRONG!</span>
+        <span class="informResult"></span>
         <h1 class="finishPage">All done!</h1>
-        <p class="finishPage" id="displayScore">Your final score is ____.</p>
+        <p class="finishPage" id="displayScore"></p>
         <label class="finishPage">Enter your initials:</label>
         <input class="finishPage" id="initialsInput" maxlength="3" />
         <button class="finishPage" id="submitScore">Submit Score</button>
         <h1 class="highScorePage">High Score List</h1>
         <ol class="highScorePage" id="highScoreList"></ol>
+        <button class="highScorePage" id="clearHighScoresBtn">
+          Clear High Scores
+        </button>
       </div>
     </main>
     <script src="./assets/javascript/script.js"></script>
