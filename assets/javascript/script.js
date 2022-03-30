@@ -287,9 +287,8 @@ function randomWallpaper() {
     "./assets/images/background3.jpg",
   ];
   wallpaperNum = Math.floor(Math.random() * 3);
-  document.body.style.backgroundImage =
-    "url('" + backgroundArray[wallpaperNum] + "')";
-  document.body.style.backgroundRepeat = "no-repeat";
+  document.body.style.background =
+    "url('" + backgroundArray[wallpaperNum] + "') no-repeat center center fixed";
   document.body.style.backgroundSize = "cover";
 }
 randomWallpaper();
