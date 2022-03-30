@@ -14,80 +14,70 @@ const highScoreListEl = document.querySelector("#highScoreList");
 
 const questionLibrary = [
   {
-    question: "aggle flaggle klaggel0",
-    answers: ["sdf0sd1", "sdfsdewwww2", "asdasdas3", "asdfggeeee4"],
-    answer: 0,
-  },
-  {
-    question: "aggle flaggle klaggel1",
-    answers: ["sdf1sd1", "sdfsdewwww2", "asdasdas3", "asdfggeeee4"],
+    question: "What's the name of the biome Ryley spawns in?",
+    answers: ["Floating Island", "Safe Shallows", "Dunes", "Crash Zone"],
     answer: 1,
   },
   {
-    question: "aggle flaggle klaggel2",
-    answers: ["sdfs2d1", "sdfsdewwww2", "asdasdas3", "asdfggeeee4"],
+    question:
+      "Which of the following leviathan-class life forms cannot be harmed?",
+    answers: ["Ghost", "Reaper", "Reefback", "Chelicerate"],
     answer: 2,
   },
   {
-    question: "aggle flaggle klaggel3",
-    answers: ["sdf3sd1", "sdfsdewwww2", "asdasdas3", "asdfggeeee4"],
+    question: "What's the name of the mega-corporation Ryley works for?",
+    answers: ["Torgal", "Aperture Science", "Joja Corp", "Alterra"],
     answer: 3,
   },
   {
-    question: "aggle flaggle klaggel4",
-    answers: ["sdfs4d1", "sdfsdewwww2", "asdasdas3", "asdfggeeee4"],
+    question:
+      "True or False: The unfortunately named gel sack material is only used in one crafting recipe.",
+    answers: ["True", "False"],
     answer: 0,
   },
   {
-    question: "aggle flaggle klaggel5",
-    answers: ["s5dfsd1", "sdfsdewwww2", "asdasdas3", "asdfggeeee4"],
+    question:
+      "True or False: at the end of the game, Ryley is not the only survivor of the Aurora crash.",
+    answers: ["True", "False"],
     answer: 1,
   },
   {
-    question: "aggle flaggle klaggel6",
-    answers: ["sdf6sd1", "sdfsdewwww2", "asdasdas3", "asdfggeeee4"],
-    answer: 2,
-  },
-  {
-    question: "aggle flaggle klaggel7",
-    answers: ["sdf7sd1", "sdfsdewwww2", "asdasdas3", "asdfggeeee4"],
+    question: "How does Subnautica keep players from exiting its map borders?",
+    answers: [
+      "Slow health drain",
+      "Forcibly turns player",
+      "Invisible wall",
+      "Hunts you with monsters",
+    ],
     answer: 3,
   },
   {
-    question: "aggle flaggle klaggel8",
-    answers: ["sdfs8d1", "sdfsdewwww2", "asdasdas3", "asdfggeeee4"],
-    answer: 0,
-  },
-  {
-    question: "aggle flaggle klaggel9",
-    answers: ["sdf9sd1", "sdfsdewwww2", "asdasdas3", "asdfggeeee4"],
-    answer: 1,
-  },
-  {
-    question: "aggle flaggle klaggel10",
-    answers: ["sd10fsd1", "sdfsdewwww2", "asdasdas3", "asdfggeeee4"],
+    question: "What's the longest living animal in the game?",
+    answers: ["Reefback", "Sea Dragon", "Sea Emperor", "Reaper"],
     answer: 2,
   },
   {
-    question: "aggle flaggle klaggel11",
-    answers: ["sdfs11d1", "sdfsdewwww2", "asdasdas3", "asdfggeeee4"],
+    question:
+      "What's the geological structure or landform that houses the entire game map?",
+    answers: ["Trench", "Atoll", "Valley", "Crater"],
     answer: 3,
   },
   {
-    question: "aggle flaggle klaggel12",
-    answers: ["sdf12sd1", "sdfsdewwww2", "asdasdas3", "asdfggeeee4"],
-    answer: 0,
-  },
-  {
-    question: "aggle flaggle klaggel13",
-    answers: ["sdf13sd1", "sdfsdewwww2", "asdasdas3", "asdfggeeee4"],
+    question:
+      "What's the name of the bacterial infection that is being quarantined?",
+    answers: ["Shokuna", "Kharaa", "Holcomb", "Quarnica"],
     answer: 1,
   },
   {
-    question: "aggle flaggle klaggel14",
-    answers: ["sdf14sd1", "sdfsdewwww2", "asdasdas3", "asdfggeeee4"],
-
+    question: "What's the name of the #1 most adorable animal in the game?",
+    answers: ["Peeper", "Mesmer", "Cuddlefish", "Sand Shark"],
     answer: 2,
+  },
+  {
+    question:
+      "How many characters are actually met in person across both subnautica games?",
+    answers: ["0", "2", "5", "6"],
+    answer: 1,
   },
 ];
 let timeout;
@@ -139,7 +129,9 @@ function checkHighScore(score) {
   questionEls.forEach((element) => element.classList.remove("displayed"));
   informResultEl.classList.remove("displayed");
   if (score > lowestScore) {
-    initialsInputEl.value= "";
+    initialsInputEl.value = "";
+    document.querySelector("#displayScore").innerText =
+      "Your final score is " + score + "!";
     finishPageEls.forEach((element) => element.classList.add("displayed"));
     window.alert("You got a high score! Enter your initials and submit!");
     return;
@@ -157,8 +149,7 @@ function showHighScores() {
   clearTimeout(timeout);
   const highScores = JSON.parse(localStorage.getItem(10)) ?? [];
   countdownEl.innerText = "";
-  document.querySelector("#displayScore").innerText =
-    "Your final score is " + score + "!";
+
   highScoreButtonEl.innerText = "Back to home page";
   highScoreListEl.innerHTML = "";
   informResultEl.classList.remove("displayed");
@@ -168,9 +159,9 @@ function showHighScores() {
   finishPageEls.forEach((element) => {
     element.classList.remove("displayed");
   });
-    questionEls.forEach((element) => {
-      element.classList.remove("displayed");
-    });
+  questionEls.forEach((element) => {
+    element.classList.remove("displayed");
+  });
   highScorePageEls.forEach((element) => {
     element.classList.add("displayed");
   });
@@ -194,7 +185,8 @@ answersEl.addEventListener("click", function (event) {
     ]
   ) {
     score++;
-    informResultEl.innerHTML = "Nice job! Score +1! <br>  Total score: " + score;
+    informResultEl.innerHTML =
+      "Nice job! Score +1! <br>  Total score: " + score;
     informResultEl.classList.add("displayed");
     timeout = setTimeout(function () {
       informResultEl.classList.remove("displayed");
@@ -203,10 +195,11 @@ answersEl.addEventListener("click", function (event) {
     score--;
     informResultEl.innerHTML =
       "Oof. The answer was " +
-        questionLibrary[questionNumber].answers[
-      questionLibrary[questionNumber].answer
-    ] +
-      ".<br> Total score: " + score;
+      questionLibrary[questionNumber].answers[
+        questionLibrary[questionNumber].answer
+      ] +
+      ".<br> Total score: " +
+      score;
     informResultEl.classList.add("displayed");
     timeout = setTimeout(function () {
       informResultEl.classList.remove("displayed");
@@ -254,15 +247,16 @@ highScoreButtonEl.addEventListener("click", function () {
     });
   }
 });
-function randomWallpaper(){
+function randomWallpaper() {
   const backgroundArray = [
-  "./assets/images/background.jpg",
-  "./assets/images/background2.jpg",
-  "./assets/images/background3.jpg",
-]; 
+    "./assets/images/background.jpg",
+    "./assets/images/background2.jpg",
+    "./assets/images/background3.jpg",
+  ];
   wallpaperNum = Math.floor(Math.random() * 3);
-  document.body.style.backgroundImage= "url('" +backgroundArray[wallpaperNum] +"')";
-document.body.style.backgroundRepeat = "no-repeat";
-document.body.style.backgroundSize = "cover";
+  document.body.style.backgroundImage =
+    "url('" + backgroundArray[wallpaperNum] + "')";
+  document.body.style.backgroundRepeat = "no-repeat";
+  document.body.style.backgroundSize = "cover";
 }
 randomWallpaper();
