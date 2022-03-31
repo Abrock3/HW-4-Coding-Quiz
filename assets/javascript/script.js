@@ -13,6 +13,7 @@ const highScorePageEls = document.querySelectorAll(".highScorePage");
 const highScoreListEl = document.querySelector("#highScoreList");
 const clearHighScoresEl = document.querySelector("#clearHighScoresBtn");
 
+// This is the object that stores the questions and answers in the quiz
 const questionLibrary = [
   {
     question: "What's the name of the biome the main character spawns in?",
@@ -92,11 +93,15 @@ let questionNumber = 0;
 let score = 0;
 let interval;
 let timeLeft = 75;
+// Creates a variable to store the high scores, pulling them from local storage if possible.
+//  The nullish operator is used in case there's no locally stored scores yet. 
 let highScores = JSON.parse(localStorage.getItem(10)) ?? [];
 
+// This function is called by an eventlistener, and initiates the quiz, resetting the necessary variables and displaying the correct elements.
 function quiz() {
   score = 0;
   questionNumber = 0;
+  // included a debug mode to assist others in testing the site for bugs
   debugMode = window.confirm(
     "Would you like to turn on debug mode for this run? The correct answers will be highlighted."
   );
@@ -109,6 +114,7 @@ function quiz() {
     element.classList.add("displayed");
   });
   displayQuestion();
+  // this will initiate the countdown timer
   interval = setInterval(function () {
     timeLeft--;
     countdownEl.textContent = "Time: " + timeLeft;
@@ -119,6 +125,7 @@ function quiz() {
   }, 1000);
 }
 
+// this is called by an event listener every time an answer is selected, resetting the HTML of the list element and repopulating the question and answer elements
 function displayQuestion() {
   answersEl.innerHTML = "";
   questionHeadingEl.textContent = questionLibrary[questionNumber].question;
@@ -126,20 +133,23 @@ function displayQuestion() {
     let tempLi = document.createElement("li");
     tempLi.textContent = answer;
     tempLi.className = "liButtons";
-       tempLi.setAttribute("data-answer", answer);
+    tempLi.setAttribute("data-answer", answer);
     if (
       answer ===
         questionLibrary[questionNumber].answers[
           questionLibrary[questionNumber].answer
         ] &&
       debugMode === true
-    ){
-      tempLi.append("<--")
+    ) {
+      tempLi.append("<--");
     }
-      answersEl.appendChild(tempLi);
+    answersEl.appendChild(tempLi);
   });
 }
 
+// This will check local storage to see if the accumulated score is good enough to be in the top ten scores and above 0
+// if those conditions are met, the function will display the high score input page. If not, it will inform the user that they're just a casual,
+// and skip to the high scores page
 function checkHighScore(score) {
   countdownEl.textContent = "Time: " + timeLeft;
   const currentHighScores = JSON.parse(localStorage.getItem(10)) ?? [];
@@ -162,12 +172,13 @@ function checkHighScore(score) {
   }
 }
 
+// this will hide and show the proper elements to get to the high scores page; this function can get called by 3 different event listeners,
+// one of which can be triggered from any page; this is why so many elements seem unnecessarily hidden 
 function showHighScores() {
   clearInterval(interval);
   clearTimeout(timeout);
   const highScores = JSON.parse(localStorage.getItem(10)) ?? [];
   countdownEl.innerText = "";
-
   highScoreButtonEl.innerText = "Back to home page";
   highScoreListEl.innerHTML = "";
   informResultEl.classList.remove("displayed");
@@ -183,7 +194,7 @@ function showHighScores() {
   highScorePageEls.forEach((element) => {
     element.classList.add("displayed");
   });
-  console.log(highScores);
+// this will create an li for each high score and append it to the list
   highScores.forEach(function (score) {
     let tempLi = document.createElement("li");
     tempLi.innerHTML = score.name + ": " + score.score;
@@ -196,6 +207,7 @@ function showHighScores() {
 
 startButtonEl.addEventListener("click", quiz);
 
+// This event listener determines whether the user clicked on the correct answer, reacts accordingly, and then displays the next question
 answersEl.addEventListener("click", function (event) {
   const target = event.target;
   if (target.className === "liButtons") {
@@ -243,6 +255,7 @@ answersEl.addEventListener("click", function (event) {
   }
 });
 
+// This event listener will store the high score and initials provided upon clicking the submit button
 submitButtonEl.addEventListener("click", function () {
   let name = initialsInputEl.value.toUpperCase();
   if (name.length > 1) {
@@ -256,12 +269,16 @@ submitButtonEl.addEventListener("click", function () {
     window.alert("You must type at least two characters in your initials.");
   }
 });
+// this event listener will "click" the submit button if the enter key is pressed in the input field
 initialsInputEl.addEventListener("keyup", function (event) {
   event.preventDefault();
   if (event.keyCode === 13) {
     submitButtonEl.click();
   }
 });
+
+// this event listener will determine which state the "view high scores" button is in,
+// and depending on that will toggle between the high scores page and the home page
 highScoreButtonEl.addEventListener("click", function () {
   if (highScoreButtonEl.textContent === "View High Scores") {
     showHighScores();
@@ -275,11 +292,13 @@ highScoreButtonEl.addEventListener("click", function () {
     });
   }
 });
+// this event listener will clear all high scores on click
 clearHighScoresEl.addEventListener("click", function () {
   highScores = [];
   localStorage.clear();
   highScoreListEl.innerHTML = "<li>There are no high scores yet!</li>";
 });
+// this function will select a random background for the page from 3 subnautica backgrounds; the function is called below
 function randomWallpaper() {
   const backgroundArray = [
     "./assets/images/background.jpg",
@@ -288,7 +307,9 @@ function randomWallpaper() {
   ];
   wallpaperNum = Math.floor(Math.random() * 3);
   document.body.style.background =
-    "url('" + backgroundArray[wallpaperNum] + "') no-repeat center center fixed";
+    "url('" +
+    backgroundArray[wallpaperNum] +
+    "') no-repeat center center fixed";
   document.body.style.backgroundSize = "cover";
 }
 randomWallpaper();
