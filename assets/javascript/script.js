@@ -13,7 +13,7 @@ const highScorePageEls = document.querySelectorAll(".highScorePage");
 const highScoreListEl = document.querySelector("#highScoreList");
 const clearHighScoresEl = document.querySelector("#clearHighScoresBtn");
 
-// This is the object that stores the questions and answers in the quiz
+// This is the object that stores the questions and answers to be pulled by the displayQuestion function
 const questionLibrary = [
   {
     question: "What's the name of the biome the main character spawns in?",
@@ -54,7 +54,7 @@ const questionLibrary = [
     answer: 3,
   },
   {
-    question: "What's the lengthiest extant animal in the game?",
+    question: "What's the largest living animal in the game?",
     answers: [
       "Reefback Leviathan",
       "Sea Dragon Leviathan",
@@ -87,23 +87,23 @@ const questionLibrary = [
     answer: 1,
   },
 ];
-let debugMode = false;
 let timeout;
+let interval;
+let debugMode = false;
 let questionNumber = 0;
 let score = 0;
-let interval;
 let timeLeft = 75;
-// Creates a variable to store the high scores, pulling them from local storage if possible.
-//  The nullish operator is used in case there's no locally stored scores yet. 
+// Creates a variable to store the high scores, pulling them from local storage if possible
+//  The nullish operator is used in case there's no locally stored scores yet, in which case it will return an empty array
 let highScores = JSON.parse(localStorage.getItem(10)) ?? [];
 
 // This function is called by an eventlistener, and initiates the quiz, resetting the necessary variables and displaying the correct elements.
 function quiz() {
   score = 0;
   questionNumber = 0;
-  // included a debug mode to assist others in testing the site for bugs
+  // included an easy mode to assist others in testing the site for bugs
   debugMode = window.confirm(
-    "Would you like to turn on debug mode for this run? The correct answers will be highlighted."
+    "Would you like to turn on easy mode for this run? The correct answers will be highlighted to assist with testing/debugging."
   );
   timeLeft = 75;
   countdownEl.innerHTML = "Time: " + timeLeft;
@@ -125,7 +125,8 @@ function quiz() {
   }, 1000);
 }
 
-// this is called by an event listener every time an answer is selected, resetting the HTML of the list element and repopulating the question and answer elements
+// this is called by an event listener at the beginning of the quiz and every time an answer is selected,
+//  resetting and repopulating the list element with the new answers and overwriting the question heading with the new question
 function displayQuestion() {
   answersEl.innerHTML = "";
   questionHeadingEl.textContent = questionLibrary[questionNumber].question;
@@ -134,6 +135,7 @@ function displayQuestion() {
     tempLi.textContent = answer;
     tempLi.className = "liButtons";
     tempLi.setAttribute("data-answer", answer);
+    // This if statement will added an arrow to the correct answer if the user selected easy mode
     if (
       answer ===
         questionLibrary[questionNumber].answers[
@@ -210,6 +212,8 @@ startButtonEl.addEventListener("click", quiz);
 // This event listener determines whether the user clicked on the correct answer, reacts accordingly, and then displays the next question
 answersEl.addEventListener("click", function (event) {
   const target = event.target;
+  // when the answers are populated, the liButtons class is added to them; this checks to make sure the user is clicking on an answer,
+  // not on the list element
   if (target.className === "liButtons") {
     clearTimeout(timeout);
     if (

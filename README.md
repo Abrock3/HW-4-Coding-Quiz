@@ -34,5 +34,7 @@ I used some of the tips from this article to assist me with storing high scores:
 I used this site to decided on a gradient for my header. I may change it later: https://cssgradient.io/gradient-backgrounds/
 
 As always, I used this site to help determine the colors I used: https://coolors.co/b74f6f-1f0322-f7dba7-4a6c6f-d5c6e0.
+
+The background images were obtained from this site: https://wallpapercave.com/subnautica-wallpapers
 ## License
 I'm not adding a license to this application at this time.
