@@ -87,6 +87,7 @@ min-height: 48px;
 }
 
 .answersList li {
+  user-select: none;
  width: 300px;
   font-size: 130%;
   line-height: 30px;
