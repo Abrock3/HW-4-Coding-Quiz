@@ -18,13 +18,15 @@ THEN I can save my initials and my score
 ```
 Our instructor and TAs detailed we could make the content of the quiz anything we'd like, so I chose to make a trivia quiz about one of my favorite games, Subnautica.
 
-I wrote all code from scratch using my prior knowledge from my class's content, with minimal assistance from googled articles. The javascript dynamically creates list items using a library of questions and answers, and uses the event delegation method to make them mimic buttons so the user can submit answers. After the quiz is over, the application can store high scores in local storage, display them, and clear them if desired.
+I wrote all code from scratch using my prior knowledge from my class's content, with minimal assistance from googled articles. The javascript dynamically creates list items using a library of questions and answers, and uses the event delegation method to make them mimic buttons so the user can submit answers. After the quiz is over, the page can store high scores in local storage, display them, and clear them if desired.
 
 A gif was provided to us to demonstrate proper functionality; I tried to mimic the functions in that gif as closely as possible while adding my own style.
 
 ## Usage
 
-Here's a link to the deployed application: https://abrock3.github.io/HW-4-Gaming-Quiz/
+Here's a link to the deployed webpage: https://abrock3.github.io/HW-4-Gaming-Quiz/
+
+Below is a gif of the functioning page:
 
  ![Demo gif](./assets/images/demo.gif) / ! [](./assets/images/demo.gif)
 
@@ -37,4 +39,4 @@ As always, I used this site to help determine the colors I used: https://coolors
 
 The background images were obtained from this site: https://wallpapercave.com/subnautica-wallpapers
 ## License
-I'm not adding a license to this application at this time.
+I'm not adding a license to this page at this time.
