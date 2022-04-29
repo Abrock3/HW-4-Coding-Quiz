@@ -106,7 +106,7 @@ function quiz() {
     "Would you like to turn on easy mode for this run? The correct answers will be highlighted to assist with testing/debugging."
   );
   timeLeft = 75;
-  countdownEl.innerHTML = "Time: " + timeLeft;
+  countdownEl.innerHTML = `Time: ${timeLeft}`;
   introPageEls.forEach((element) => {
     element.classList.remove("displayed");
   });
@@ -117,7 +117,7 @@ function quiz() {
   // this will initiate the countdown timer
   interval = setInterval(function () {
     timeLeft--;
-    countdownEl.textContent = "Time: " + timeLeft;
+    countdownEl.textContent = `Time: ${timeLeft}`;
     if (timeLeft < 0) {
       clearInterval(interval);
       checkHighScore(score);
@@ -153,15 +153,16 @@ function displayQuestion() {
 // if those conditions are met, the function will display the high score input page. If not, it will inform the user that they're just a casual,
 // and skip to the high scores page
 function checkHighScore(score) {
-  countdownEl.textContent = "Time: " + timeLeft;
+  countdownEl.textContent = `Time: ${timeLeft}`;
   const currentHighScores = JSON.parse(localStorage.getItem(10)) ?? [];
   const lowestScore = currentHighScores[9]?.score ?? 0;
   questionEls.forEach((element) => element.classList.remove("displayed"));
   informResultEl.classList.remove("displayed");
   if (score > lowestScore) {
     initialsInputEl.value = "";
-    document.querySelector("#displayScore").innerText =
-      "Your final score is " + score + "!";
+    document.querySelector(
+      "#displayScore"
+    ).innerText = `Your final score is ${score}!`;
     finishPageEls.forEach((element) => element.classList.add("displayed"));
     window.alert("You got a high score! Enter your initials and submit!");
     return;
@@ -175,7 +176,7 @@ function checkHighScore(score) {
 }
 
 // this will hide and show the proper elements to get to the high scores page; this function can get called by 3 different event listeners,
-// one of which can be triggered from any page; this is why so many elements seem unnecessarily hidden 
+// one of which can be triggered from any page; this is why so many elements seem unnecessarily hidden
 function showHighScores() {
   clearInterval(interval);
   clearTimeout(timeout);
@@ -196,10 +197,10 @@ function showHighScores() {
   highScorePageEls.forEach((element) => {
     element.classList.add("displayed");
   });
-// this will create an li for each high score and append it to the list
+  // this will create an li for each high score and append it to the list
   highScores.forEach(function (score) {
     let tempLi = document.createElement("li");
-    tempLi.innerHTML = score.name + ": " + score.score;
+    tempLi.innerHTML = `${score.name}: ${score.score}`;
     highScoreListEl.appendChild(tempLi);
   });
   if (highScores.length === 0) {
@@ -223,21 +224,21 @@ answersEl.addEventListener("click", function (event) {
       ]
     ) {
       score++;
-      informResultEl.innerHTML =
-        "Nice job! Score +1! <br>  Total score: " + score;
+      informResultEl.innerHTML = `Nice job! Score +1!
+        <br>
+        Total score: ${score}`;
       informResultEl.classList.add("displayed");
       timeout = setTimeout(function () {
         informResultEl.classList.remove("displayed");
       }, 3000);
     } else {
       score--;
-      informResultEl.innerHTML =
-        "Oof. The answer was " +
+      informResultEl.innerHTML = `Oof. The answer was ${
         questionLibrary[questionNumber].answers[
           questionLibrary[questionNumber].answer
-        ] +
-        ".<br> Total score: " +
-        score;
+        ]
+      }.<br>
+      Total score: ${score}`;
       informResultEl.classList.add("displayed");
       timeout = setTimeout(function () {
         informResultEl.classList.remove("displayed");
@@ -247,7 +248,7 @@ answersEl.addEventListener("click", function (event) {
       } else {
         timeLeft = 0;
       }
-      countdownEl.textContent = "Time: " + timeLeft;
+      countdownEl.textContent = `Time: ${timeLeft}`;
     }
     questionNumber++;
     if (questionLibrary.length === questionNumber) {
@@ -310,10 +311,7 @@ function randomWallpaper() {
     "./assets/images/background3.jpg",
   ];
   wallpaperNum = Math.floor(Math.random() * 3);
-  document.body.style.background =
-    "url('" +
-    backgroundArray[wallpaperNum] +
-    "') no-repeat center center fixed";
+  document.body.style.background = `url('${backgroundArray[wallpaperNum]}') no-repeat center center fixed`;
   document.body.style.backgroundSize = "cover";
 }
 randomWallpaper();
